@@ -1,0 +1,35 @@
+\documentclass[12pt, intlimits]{amsart} % The options are 9,10,11,12 pt and 12pt is useful for proofreading. intlimits allows the limits for an integral to be placed above and below it as opposed to the side. 
+\usepackage{amssymb,latexsym} % If you add this, you can not worry about many things. Yeah, that was vague, but it was the author's recommendation to start off each document with \documentclass{amsart} and \usepackage{amssymb, latexsym} as a habit. 
+
+\begin{document}
+\title[This is the short Title]{The Argument here is the Long Version of the Title to be used in the Document}
+\date{Place your date here, or use \texttt{\textbackslash today}} 
+	% This shows up on the bottom of the page
+\dedicatory{This is the optional dedicatory comment}
+\author[N.\, C. Ruderman]{Noah~C. Ruderman}
+\address{Place your address here}
+\email[Author's Name]{Said author's email} % For multiple authors you may add the author's name as an optional argument
+\email{You can add the email of second authors as well}
+\urladdr{Place your website here} %again, an optional argument exists for the name of the author
+\thanks{What is typeset here is under the "thanks" section}
+
+\begin{abstract}
+This is the abstract for the document and contains much relevant information.
+\end{abstract}
+
+
+
+\maketitle % If the \maketitle command is missing, the title won't format and won't show up on the document
+
+Chapter 11: The AMS article document class
+
+\bigskip
+
+I don't understand why but the title and dedicatory commands are not working like they should. It actually turns out that I forgot to include the \emph{maketitle} command at the end of the top matter. This changed everything. 
+
+\[
+\int^{\infty}_{-\infty} f(x) \, dx
+\]
+% we see that the subscript and superscripts for the integral are located to the sides rather than the top and bottom of it. 
+
+\end{document}

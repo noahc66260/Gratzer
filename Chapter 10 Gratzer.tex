@@ -1,0 +1,65 @@
+\documentclass[twocolumn]{article} %The twocolumn document class option is pretty straightforward with what it does. Remove it to see the difference. 
+\usepackage{showkeys}
+\usepackage{graphicx}
+\usepackage{layout}
+
+\begin{document}
+\layout % The \layout command with the layout package creates a visual design of the page style of the document.
+\ \newpage
+
+	We cannot add a title to this document with the same code because
+	the document class is article, not amsart. 
+
+\section{Abstract} \label{S:abstract}
+This is the section for the abstract for the "amsart" document class this is section~\ref{S:abstract} located on page~\pageref{S:abstract}.
+\subsection{Subsec Abstract} \label{SS:Subsec Abstract}
+This is the subsection of the abstract. This is subsection number~\ref{SS:Subsec Abstract}. As we can see we can create a label that includes spaces. 
+\subsubsection{Subsubsection of my Abstract} \label{SSS:Subsec Abstract}
+This is the subsubsection of the Abstract. This is pretty intricate. The following are actually subsections within the subsubsection:
+\paragraph{New Paragraph}
+Just when you thought it couldn't go on any longer...
+\paragraph{Another New Paragraph}
+These are all contained within the subsubsection.
+\subparagraph{Subparagraph}
+This looks like the typeset for the regular paragraph in the "amsart" document class.
+\subsection{Next subsection}
+As you can see I can make multiple subsections, subsubsections, paragraphs, and subparagraphs all within the same section.
+\subsection{}
+I don't even need to name the subsections, etc. The subsubsection titled \emph{Subsubsection of my Abstract} is section~\ref{SSS:Subsec Abstract}.
+
+\section*{Next Section}
+As we can see this is the *-ed version in which there is no numbering. 
+\subsection{Next subsection}
+We continue the numbering from the previous section because the section number is not incremented with the *-ed version. \\
+NOTE: switch between the "amsart" document class and the "sample" document class to see the difference. I feel that the "sample" document class has much more readability concerning the section, subsection, subsubsection, paragraph, and subparagraph commands. In "amsart," the paragraph and subparagraph commands have no use. 
+
+\begin{equation} \label{E:function}
+f(x) = x
+\end{equation}
+
+above is equation~\ref{E:function}. It looks like the article document class really doesn't like the command \emph{eqref} which is the same as the \emph{ref} command except that there are parentheses around the number, which is useful for equations. \par
+When referencing equations and pages and sections, etc., use tildes (~) which create an unbreakable space. Apparently I can't typeset the tilde I just wrote because it was seen as an unbreakable space. I need to find out how to type literal stuff. \par
+\bigskip
+I just saw this in the book page 257. To keep track of what you label  your stuff insert the package "showkeys" in the preamble of the document. It shows the label of each everything labeled when it is declared and when it is used. You can see it in the pdf version of this document because it is inserted. This is to help you with labeling when you have lots of stuff to label. When the final draft of the document is completed, remove the package and you're good to go. The package \emph{showkeys} is an excellent set of training wheels. 
+
+\bigskip
+We see that the \emph{twocolumn} document class option has been inserted. Below we will insert a picture. Note that pictures should be saved in EPS or PDF format. 
+\begin{figure}[ht]
+   \includegraphics[height = 1.5 in]{xlarge_rebeccablackfinal.jpg}
+   \caption{This is a picture of rebecca black} \label{F:picture}
+\end{figure}
+
+This is picture \ref{F:picture}. I don't know how to format the picture to not be centered and to take up the space for a single column rather than both. We should see that as I continue typing that eventually the text goes onto the next page and that we're on the same page as the picture. Ok I get it. The \emph{figure} environment can take optional arguments which may be h (for here), t (for top), b (for bottom), p (for separate page). Also if the scaling of the picture makes it too large for one column, then it appears that the picture is not auto adjusted and spans more than that one column. So things are coming together. 
+
+\begin{thebibliography}{9}
+   \bibitem{aM11}
+   Aaron Mowitz
+   \emph{My awesome autobiography}
+   Journal of Huge Egos
+   \textbf{8}~(2011),1-10000
+\end{thebibliography}
+
+Note: you must specify the number of bibliographies you will be citing when you begin the \emph{thebibliography} environment or you will get an error message and things won't work. Also, Aaron's work can be cited like this: \cite{aM11}. We can also be more intricate and write \cite[pages~2--30 more text]{aM11}. 
+
+
+\end{document} 

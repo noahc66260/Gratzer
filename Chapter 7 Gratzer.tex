@@ -1,0 +1,219 @@
+\documentclass[12pt]{amsart}
+\usepackage{amssymb, latexsym, verbatim}
+% \renewcommand{\baselinestretch}{1.5} % enable to get double spacing!
+\DeclareMathOperator{\aright}{a_{\textnormal{right}}}
+\DeclareMathOperator{\weird}{\frac{x^{x + y}}{\textnormal{weird}*\textbf{moose}}}
+
+
+\begin{document}
+
+	\title{Chapter 7: Typing Math}
+	\author[N.\, C. Ruderman]{Noah~C. Ruderman}
+
+	\begin{abstract}
+		We will review
+		\begin{center}
+		\begin{itemize}
+			\item Math environments
+			\item Spacing rules
+			\item Equations
+			\item Basic constructs
+			\item Delimiters
+			\item Operators
+			\item Math accents
+			\item Stretchable horizontal lines
+		\end{itemize}
+		\end{center}
+	\end{abstract}
+
+	\maketitle 
+	% If the \maketitle command is missing, the title won't format 
+	% and won't show up on the document
+
+A math formula can be typeset inline: $f(x) = y$ or displayed:
+\[
+f(x) = y
+\]
+
+Actually there are several ways to typeset a formual inline or displayed. The inline formula is part of math environment \texttt{math}. We can type it by typing \textbackslash( to begin and \textbackslash) to end the statement. Alternatively we may use \$ signs to begin and end our \texttt{math} environment. Just for the benefit of the user, the two methods above for this are shorthand for initializing the actual environment. Thus we can write equations in three ways: \( f(x) = y\), or $f(x) = y$, or 
+\begin{math}
+f(x) = y.
+\end{math}
+
+
+According to the book, the most useful way to invoke an inline formula is with the \textbackslash( and \textbackslash) delimiters because \LaTeX \ has a hard time figuring out incorrect uses of a \$ delimiter since it opens and closes the environment. From now on I will use the \textbackslash( and \textbackslash) delimters rather than the \$ demiters.
+
+The \texttt{displaymath} environment invokes a displayed formula but obviously the \textbackslash[ and \textbackslash] delimters are more convenient.
+
+Note: no blank \emph{lines} are permitted in a math or displayed math environment. Also, \LaTeX \ ignores spaces in math.
+\vspace{15pt}
+
+The following is suggested as good practice for writing math:
+\begin{itemize}
+   \item \text{Place \textbackslash[ and \textbackslash] on lines by themselves (I already do this)}
+   \item \text{Leaves spaces \emph{before} and \emph{after} binary relations}
+   \item \text{Indent-- by three spaces, for example, the contents of the} \\
+      \text{environment so they stand out}
+   \item \text{Keep a formula on a single line of source file, if possible} \\
+      \text{(I don't understand...)}
+\end{itemize}
+
+I didn't realize this: the spacing after a comma is different in math and text. Compare \(a = b,c\) or \(d\) with \(a = b\), \(c\) or \(d\). Just... don't include the comma in an inline math formula. I suppose it's debatable is I should go through the effot to do this with a \texttt{displaymath} environment. 
+
+
+The \texttt{equation} environment and the \texttt{displaymath} environment are exactly the same except that the \texttt{equation} environment assigns a number to the equation. So yes, the \textasteriskcentered-ed version of the \texttt{equation} environment is equivalent to the \texttt{displaymath} environment.
+\begin{equation} \label{E:f(x)}
+   f(x) = y
+\end{equation}
+\vspace{15pt}
+
+So there is an option \textbackslash \texttt{label} command in the \texttt{equation} environment. This allows for easy referencing and can be referenced with the \textbackslash \texttt{ref} command or alternatively with the \textbackslash \texttt{eqref} command. Neither of these commands need to be used in an inline math environment or whatever. For example, see equation~\eqref{E:f(x)}.
+
+\(a \cdot b \quad a \times b \quad a \div b \)
+
+\textbackslash \texttt{dfrac} types display style fractions inline: \( \dfrac{1 + 2x}{x + y} \). We can also type inline style fractions in displayed math environments with \textbackslash \texttt{tfrac}.
+\[
+   \tfrac{1 + 2x}{x + y}
+\]
+\vspace{15pt}
+
+I already know how to type superscripts and subscripts: \( a^{x^{y}} - b_{x_{y}} \). Note that the prime symbol is automatically superscripted and is typed as an apostrophe. \( f(x') = y' \). We can also type superscripts and subscripts by themselves as \( {}^{\dagger} \) or \( {}_{\dagger} \). 
+
+Let's type some binomials. We use the \textbackslash \texttt{binom}\{\emph{top expression}\}\{\emph{bottom expression}\} command. 
+\[
+   \binom{a}{b + c}
+\]
+We can type display line binomials inline with the \textbackslash \texttt{dbinom} command: \( \dbinom{a}{b + c} \) and we can type inline binomials in displayed math environments with \textbackslash \texttt{tbinom}
+\[
+   \tbinom{a}{b + c}
+\]
+There is the low line ellipsis \( \ldots \) using the command \textbackslash \texttt{ldots} and the on-the-line ellipsis \( \cdots \) using the command \textbackslash \texttt{cdots}. \LaTeX \     decides which one is appropriate if the command \textbackslash \texttt{dots} is used. \LaTeX \ is not always correct in its judgement so use the more specialized commands if necessary. 
+\vspace{15pt}
+
+This is what a display environment integral looks like
+\[
+   \int_{-\infty}^{\infty} x \, dx
+\]
+Notice that the limits aren't really above and below the integral. If we want to make this happen, we use the \textbackslash \texttt{limits} command:
+\[
+   \int\limits_{-\infty}^{\infty} x \, dx
+\]
+We can type more than just one integral at a time. Check out the following:
+\[
+   \oint \qquad \iint \qquad \iiint \qquad \iiiint \qquad \idotsint
+\]
+To typeset the square root of a quantity we use the \textbackslash \texttt{sqrt}[\emph{n root}]\{argument\} command where \emph{n root} is a number. With this we can typset
+\[
+   \sqrt[3]{\sqrt[4]{x}+1}
+\]
+Omitting the optional argument typsets the usual square root \( \sqrt{x} \). Sometimes it may be necessary to refine how a root is typeset in the case of \( \sqrt[g]{x} \). We can use the command \textbackslash \texttt{leftroot}[\emph{distance}] where \emph{distance} is an will move the typset argument left, or right with a negative argument. We can also use the command \textbackslash \texttt{uproot}[\emph{distance}] where \emph{distance} will move the typeset argument up, or down with a negative statement. Let's try to fix our square root:
+\[
+   \sqrt[\uproot{4} g]{x}
+\]
+\LaTeX is very fickle about the argument described above. Make sure there is no space between the [ and the \textbackslash \  in the command.
+\vspace{15pt}
+
+We can use the \textbackslash \texttt{text} command in a displayed math environment:
+\[
+   a_{\text{left}} + 2 = a_{\text{right}}
+\]
+The \textbackslash \texttt{text} command typesets its argument in size and shape of the surrounding text. There are cases that this might pose a problem. Compare: \\
+\emph{The theorem states that \( a_\text{right} \) is \ldots} \\
+\emph{The theorem states that \( a_\textnormal{right} \) is \ldots} \\
+We format the second example with the \textbackslash \texttt{textnormal} command or the \textbackslash \texttt{normalfont} environment?? (I believe there is a different name for this).
+
+Any of the text font commands with arguments can be used in math formulas.
+\vspace{15pt}
+
+Here are some delimiters that you may want to type: \\
+\( ( \ ) \ [  \ ] \ \{ \ \} \ \backslash / \ \langle \ \rangle \ \vert \ \| \ \lfloor \ \rfloor \ \lceil \ \rceil \ \uparrow \ \Uparrow \ \downarrow \ \Downarrow \ \updownarrow \ \Updownarrow \ \ulcorner \ \urcorner \ \llcorner \ \lrcorner \) \\
+They don't need to be typed in pairs. \( \uparrow x \langle \).
+
+All delimiters, except the "corners," can stretch to enclose the typeset formula. For example,
+\[
+   \left\uparrow \frac{x}{1 + y} \right\rangle
+\]
+However, make sure to use the \textbackslash \texttt{left} and \textbackslash \texttt{right} commands so that \LaTeX knows what the specified delimiters are. The general construction is \textbackslash \texttt{left} \emph{delim1} and \textbackslash \texttt{right} \emph{delim2} where \emph{delim1} and \emph{delim2} are the left and right delimiters, respectively. A left and a right delimiter must be paired so that \LaTeX knows what to scale the delimiters to. Also we can specify a blank delimiter by using a period as one of the delimiters; if you want a single delimiter, you must match it with a blank delimiter.
+\[
+   \left. \frac{x}{1 + y} \right\rangle
+\]
+You can also use the \textbackslash \texttt{left} and \textbackslash \texttt{right} commands for delimiters where there is no difference between the left and right delimiters. For example, the \textbackslash \( \mid \) delimiter typesets as \( \| \) but there is no way for \LaTeX to tell when we are specifying a right delimiter and when we are specifying a left delimiter, which is important for debugging.
+\( \left \| x \right \| \)
+
+The \verb+\big, \Big, \bigg,+ and \verb+\Bigg+ commands produce delimiters of larger sizes that do not stretch. 
+\[
+   F(x) |^{b}_{a} \quad
+   F(x) \big|^{b}_{a} \quad
+   F(x) \Big|^{b}_{a}
+\]
+\[
+(\quad \big(\quad \Big(\quad \bigg(\quad \Bigg(
+\]
+% There's something about \bigr and \bigl commands as well as the other variants with l and r. I am confused as to their use because omitting the last letter doesn't seem to change anything.
+Delimiters may also be used as binary relations. To elaborate, there are methods to make \LaTeX recognize the delimiter as a binary operation so there is appropriate spacing on each side. For this there are the \textbackslash \texttt{bigm} and \textbackslash \texttt{biggm} commands as well as the other variants. 
+\[
+   \left\{ \, x \biggm| \int_0^x t^2 \, dt \leq 5 \, \right\}
+\]
+We can define a new operator with the \verb+\DeclareMathOperator+ command. It has the form \\
+\textbackslash \texttt{DeclareMathOperator}\{\textbackslash\emph{opCommand}\}\{\emph{opName}\} \\
+and this must be placed in the preamble. Using this we can type \(\aright\) very easily or any other formula like \(\weird\). This is helpful if we are typing it repeatedly.
+\vspace{15pt}
+
+Also, here's that weird symbol that I see: \( \equiv \)
+
+Some other larger operators used often:
+\[
+   \prod ^a_b \qquad \prod\nolimits^a_b \qquad \sum^a_b \qquad \sum\nolimits^a_b
+\]
+Inline: \( \prod ^a_b \qquad \prod\limits^a_b \qquad \sum^a_b \qquad \sum\limits^a_b \) \\
+Note that the default position for the limits inline is on the side of the operator and the default position of the limits in the displayed formula is on the top and bottom. 
+\vspace{15pt}
+
+It is possible to create multiline subscripts. Use the \verb+\substack+ command
+\[
+   \sum_{\substack{i < n \\
+                               i \text{ even} } }
+   x_i^2
+\]
+However, the line separator \verb+\\+ must always be used to separate lines (but should not be used on the last line). 
+\vspace{15pt}
+
+Here are some math accents that you might use
+\[
+   \acute{a} \quad \bar{a} \quad \breve{a} \quad \check{a} \quad \dot{a} \quad \ddot{a} \quad \dddot{a} \quad \ddddot{a} 
+   \quad \grave{a} \quad \hat{a} \quad \widehat{a} \quad \mathring{a} \quad \tilde{a} \quad \widetilde{a} \quad \vec{a}
+\]
+It is possible to stack the symbols \( \hat{\hat{a}} \)
+\vspace{15pt}
+
+Let's create some horizontal braces. We do this with the \verb+\overbrace+ command.
+\[
+   \overbrace{n_1 + n_2 + n_3 + \cdots}
+\]
+We can add a superscript to this to label the brace
+\[
+   \overbrace{n_1 + n_2 + n_3 + \cdots}^{\textnormal{brace label}}
+\]
+The same rules apply to the \verb+\underbrace+ command. We can do some pretty fancy things
+\[
+   \underbrace{
+      \overbrace{a + \cdots + a}^{\frac{(m - n)}{2}} + 
+      \underbrace{b + \cdots + b}_n + 
+      \overbrace{a + \cdots + a}^{\frac{(m - n)}{2}}
+   }_{m}
+\]
+Next we can draw lines above or below a formula with the \verb+\overline+ and \verb+\underline+ formulas, respectively.
+\[
+   \overline{x^2 + y^2 = r^2} \qquad \underline{\sin \theta = \frac{h}{r}}
+\]
+We can also place arrows above and below formulas with the \verb+\overleftarrow+, \verb+\overrightarrow+, \verb+\underleftarrow+, \verb+\underrightarrow+, \verb+\overleftrightarrow+, and \verb+\underleftrightarrow+ commands. 
+\[
+   \overleftarrow{aaaa} \quad \underleftrightarrow{bbbb}
+\]
+Lastly, we can make stretchable arrows to accomodate a formula above or below the arrows with the \verb+\xleftarrow+ and \verb+\xrightarrow+ commands. The formula on top is given as the required argument (it can be empty) and the formula on the bottom is in the form of an optional argument. 
+\[
+   A \xrightarrow{1-1}  B \xleftarrow[\alpha \to \beta]{\text{onto}} C \xleftarrow[\gamma]{} D \xleftarrow{} E
+\]
+
+% when I finish writing this I should format the display math typesetting so that my code is more readable (indenting). I should also add \vspace commands to separate different sections of content. 
+\end{document}

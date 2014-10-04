@@ -1,0 +1,313 @@
+\documentclass[12pt]{amsart}
+\usepackage{amssymb, latexsym, verbatim,amscd}
+% \renewcommand{\baselinestretch}{1.5} % enable to get double spacing!
+
+
+\begin{document}
+
+	\title{Chapter 9: Multiline Math Displays}
+	\author[N.\, C. Ruderman]{Noah~C. Ruderman}
+
+	\begin{abstract}
+		We will review
+		\begin{center}
+		\begin{itemize}
+			\item Gathering formulas
+			\item Splitting long formulas
+			\item General rules
+			\item Aligned columns
+			\item Aligned subsidary math environments
+			\item Adjusted columns
+			\item Commutative diagrams
+		\end{itemize}
+		\end{center}
+	\end{abstract}
+
+	\maketitle 
+	% If the \maketitle command is missing, the title won't format 
+	% and won't show up on the document
+
+Multiline math formulas are displayed in \emph{columns.} The columns are either \emph{adjusted}, that is, centered, or set flush left or right, or \emph{aligned}, that is, an alignment point is designated for each column and for each line. A \emph{subsidary math environment} can only be used inside another math environment. An example would be the \texttt{cases} environment.
+\vspace{15 pt}
+
+The \texttt{gather} environment groups multiple one-line formulas, each centered on separate lines.
+\begin{gather}
+   x_1 x_2 + x_2^2 x_2^2 + x_3 \notag \\
+   x_1 x_3 + x_1^2 x_3^2 + x_2 \tag{second equation}\\
+   x_1 x_2 x_3
+\end{gather}
+You must separate lines with \verb+\\+ but \verb+\\+ should not be typed on the last line. Also, each line is numbered unless it has a \verb+\tag+ or \verb+\notag+ on the line before the separator \verb+\\+. Also, the \verb+gather*+ environment is the same as \verb+gather+ except that the equations are not numbered, although you may still tag them with the \verb+\tag+ command.
+\vspace{15 pt}
+
+The \texttt{multline} environment splits very long formulas into segments on different lines. The first line is set flush left, the last line is set flush right, and lines inbetween are centered.
+\begin{multline}
+   \left(x_1 x_2 x_3 x_4 x_5 x_6 \right)^2 \\
+   + \left(y_1 y_2 y_3 y_4 y_5 + y_1  y_3 y_4 y_5 y_6 + y_1 y_2  y_4 y_5 y_6 + y_1 y_2 y_3  y_5 y_6 \right)^2 \\
+   + \left( u_1 u_2 u_3 u_4 + u_1 u_3 u_4 u_5 \right)^2
+\end{multline}
+Lines are separated with \verb+\\+ and \verb+\\+ should not be typed on the last line. The formula is numbered as a whole unless the \verb+\tag+ or \verb+\notag+ command is used. No blank lines allowed within the environment. 
+
+Note: \verb&{}+& was not typed on the beginning of each line because the \texttt{multline} environment knows that a long formula is being broken and typesets + as a binary operation. 
+
+The \verb+multline*+ environment does not label the formula unless we use the command \verb+\tag+. 
+% Something in the book pg 213 about controlling the spacing of the multline environment in a setlength environment. This is chapter 15 stuff so I'm going to skip it
+
+Lastly, we can make any line of the \verb+multline+ environment flush left or flush right with the \verb+\shoveleft+ or \verb+\shoveright+ command, respectively. The argument of these commands is the entire line being shifted.
+\vspace{15 pt}
+
+Separate parts of a formula such as each line of the \verb+multline+ environment are called subformulas. Also the different segments of the \verb+align+ environment are subformulas. 
+
+In general, in a line of an aligned formula, the first part is everything between the beginning of the line and the first \& symbol. There can be a number of parts delimited by two consecutive \& symbols (\&\&). Finally, the past part is from the last \& symbol to the end of the line or the line separator \verb+\\+. These parts are also called \emph{subformulas}. 
+\begin{align*}
+x  &&{} + y  &&{} + z  &&{} + a  && = b \\
+c  &&{} + d  &&{} + e  &&{} + f  &&= g
+\end{align*}
+
+Subformula rules 
+\begin{itemize}
+   \item Each subformula must be a formula that \LaTeX \ can type independently
+   \item If a subformula starts with a binary operation, include \verb+{}+ so that it is recognized as a binary operation
+   \item Do the same as the above if a formula if a subformula ends with a binary operation
+\end{itemize}
+Three general rules for typesetting math: Break a long formula before a binary relation or binary operation. If you break a formula with a binary operation, add \verb+{}+ so that \LaTeX \ recognizes this as a binary operation. If you break a formula within a bracket, indent the formula to the right of the opening bracket. 
+
+I can change the numbering of equations in some clever ways
+\begin{gather}
+   x_{1} x_{2} + x_{1}^{2} x_{2}^{2} + x_{3}, 
+   \label{E:1} \\
+   x_{1} x_{3} + x_{1}^{2} x_{3}^{2},
+   \tag{\ref{E:1}a}\\
+   x_{1} x_{2} x_{3}; \tag{\ref{E:1}b}
+\end{gather}
+
+Another method for this includes including the \texttt{gather} environment in the \texttt{subequations} environment. 
+
+\begin{subequations} \label{E:gp}
+   \begin{gather}
+       x_{1} x_{2} + x_{1}^{2} x_{2}^{2} + x_{3}, 
+       \label{E:gp1} \\
+       x_{1} x_{3} + x_{1}^{2} x_{3}^{2},
+      \label{E:gp2}\\
+      x_{1} x_{2} x_{3}; \label{E:gp2}
+   \end{gather}
+\end{subequations}
+\vspace{15 pt}
+
+The number of aligned columns in the \verb+align+ environment is restricted only by the width of the page. So here's how the \&'s work for an aligned column: For single \&'s, they mark alignment points and column separators. So the first \& says that what's on the left and right sides of it (before the next \&) will be a single column, and multiple rows will be aligned at that point. The second \& states that two columns will be separated (what is on the left is one column, what is on the right (before the next column separator) is another column). 
+\begin{align*}
+   x &+y + z & a &+b + \int \sin x \, dx& c &+d - \sum x^2 \\
+   e &+f & g &+h & i &+ j
+\end{align*}
+If we choose to use \&\& in the \verb+align+ environment, then whatever is sandwiched between two adjacent \&\&'s or on the edges consist of their own rows
+\begin{align*}
+   x + y + z && a + b + \int \sin x \, dx&& c + d - \sum x^2 \\
+   e + f && g + h && i + j 
+\end{align*}
+Using the \&\& separator seems to make each column flush right while the \& separator designates exactly where the columns will be aligned.
+
+We can create gaps if we like
+\begin{align*}
+   &    a_1 &	&	& 	& c_1 \\
+   &           &	&	&	& c_2 \\
+   &   a_3  &     & b_3	& 	&
+\end{align*}
+
+The \texttt{falign} environment is similar to the \texttt{align} environment except that the \texttt{falign} environment moves the leftmost column as far left and the rightmost column as far right as space allows, making more room for the formula.
+
+In some instances you may want to align a formula at a position where the separate subformulas are not valid formulas independent of each other. In this case you will have to use other tools, such as the \verb+\phantom+ command, to align formulas. 
+\begin{align*}
+   &x_{1} + y_{1} + \left( \sum_{i < 5} \binom{5}{i}
+      + a^{2} \right)^{2}\\
+   &\phantom{x_{1} + y_{1} + {}}
+      \left( \sum_{i < 5} \binom{5}{i} + \alpha^{2}
+      \right)^{2}
+\end{align*}
+\vspace{15 pt}
+
+Apparently the \verb+alignat+ environment is extremely important. The \texttt{alignat} environment leaves the intercolumn spacing to the user. There is a required argument for this environment and it is the number of columns. 
+\begin{alignat}{2}
+   x &= x \wedge (y \vee z) &
+   &\quad\text{(by distributivity)}\\
+      &= (x \wedge y) \vee (x \wedge z ) & &
+        \quad\text{(by condition (M))} \notag\\
+      &= y \vee z \notag
+\end{alignat}
+
+In the above the \verb+\quad+ command is necessary because that is what designates the space between the columns. Remember that displayed math environments ignore spaces but will respect \verb+\quad+ commands and the like. So now I see how the user controls the spacing. Also, the argument for the \texttt{alignat} environment only needs to meet the minimum number of columns, as in the program will run the same if we specify more columns than we actually use. 
+
+We can use the \verb+\intertext+ command to insert one or more lines of text in the middle of an aligned environment. 
+\begin{align*}
+   dr 	&= \sqrt[2]{dx^2 + dy^2} \\
+   \intertext{We can write this in a different way}
+   	& = dx \sqrt[2]{1 + \left(\frac{dy}{dx}\right)^2}
+\end{align*}
+
+Notice how the equal signs are aligned. The \verb+\intertext+ command must follow a line separator command \verb+\\+.
+\vspace{15 pt}
+
+A \emph{subsidary math environment} is a math environment that can only be used inside another math environment. This is similar to creating a large math symbol. The \texttt{align}, \texttt{alignat}, and \texttt{gather} environments have subsidary versions which are called \texttt{aligned}, \texttt{alignedat}, and \texttt{gathered}. 
+\[
+   \begin{aligned}
+      x &= 3 + \mathbf{p} + \alpha \\
+      y &= 4 + \mathbf{q} \\
+      z &= 4 + \mathbf{r} \\
+      u &= 5 + \mathbf{s}
+   \end{aligned}
+   \quad\text{using}\quad
+   \begin{gathered}
+      \mathbf{p} = 5 + a + \alpha \\
+      \mathbf{q} = 12 \\
+      \mathbf{r} = 13 \\
+      \mathbf{s} = 11 + d
+   \end{gathered}
+\]
+We can also used the \texttt{aligned} subsidary math environment so that a formula number is centered between two lines
+\begin{equation}
+   \begin{aligned}
+   r &=  \sqrt[2]{dx^2 + dy^2} \\
+     &=  dx \sqrt[2]{1 + \left(\frac{dy}{dx}\right)^2}
+   \end{aligned}
+\end{equation}
+The numbering is centered because \LaTeX \ treats this all as a large math symbol. Symbols, as a rule, are vetrically centrally aligned. The subsidary math environments take \verb+c+, \verb+t+, or \verb+b+ as optional arguments to force vertically centered, top, or bottom alignment, respectively.
+\[
+   \begin{aligned}[t]
+      x &= 3 + \mathbf{p} + \alpha \\
+      y &= 4 + \mathbf{q} \\
+      z &= 4 + \mathbf{r} \\
+      u &= 5 + \mathbf{s}
+   \end{aligned}
+   \quad\text{using}\quad
+   \begin{gathered}[t]
+      \mathbf{p} = 5 + a + \alpha \\
+      \mathbf{q} = 12 \\
+      \mathbf{r} = 13 \\
+      \mathbf{s} = 11 + d
+   \end{gathered}
+\]
+\vspace{15 pt}
+
+So there's a subsidary math environment called \texttt{split}. It works like the \texttt{multline} environment but it allows the contents to be aligned with an aligned environment that it is in. I see little use for this so I'm not writing it up but know it exists.
+\vspace{15 pt}
+
+In an \emph{adjusted} multiline math environment, the columns are adjusted so that they are displayed centered, flush left, or flush right, instead of aligned. Since you have no control line by line over the alignment of the columns, \& has only one role to play, it is the column separator.
+
+We use the \texttt{matrix} subsidary math environment to typeset matrices.
+\begin{equation*}
+   \left(
+   \begin{matrix}
+      a + b + c 	& uv 	& x - y 	& 27 \\
+      a + b 	& u + v & z 	& 1340
+   \end{matrix}
+   \right) = 
+   \left(
+   \begin{matrix}
+      1	& 100 	& 115	& 27 \\
+      201 & 0	& 1	& 1340 
+   \end{matrix}
+   \right)
+\end{equation*}
+You are not allowed to use \texttt{matrix} on its own outside a math environment. The \texttt{matrix} subsidary environment allows you 10 columns to work with. If you need more, you need to use chapter 15 stuff. Use the \verb+\hdotsfor+ command to fill columns with dots. The required argument is the number of rows that there will be dots for. There is also an optional argument that multiplies the spacing between the dots. 
+\begin{equation*}
+   \left(
+   \begin{matrix}
+      a + b + c 	&\hdotsfor[2]{3} \\
+      a + b 	& u + v & z 	& 1340
+   \end{matrix}
+   \right)
+\end{equation*}
+
+The \verb+\hdotsfor+ command must be used directly after a \& or at the beginning of a line. For a single element there are also the \verb+\dots+, \verb+\vdots+, and \verb+\ddots+ commands which give us horizontal, vertical, and diagonal dots, respectively.
+\begin{equation*}
+   \left(
+   \begin{matrix}
+      1		& 0		& \dots 	& 0 \\
+      0 		& 1 		& \dots 	& 0 \\
+      \vdots 	& \vdots 	& \ddots 	& \vdots \\
+      0 		& 0 		& \dots 	& 1
+   \end{matrix}
+   \right)
+\end{equation*}
+There are delimited variants of the \texttt{matrix} subsidary math environment. They are \texttt{pmatrix}, \texttt{bmatrix}, \texttt{vmatrix}, \texttt{Vmatrix}, and \texttt{Bmatrix}.
+
+When inserting a matrix in an inline math formula, it may be too large. Use the \texttt{smallmatrix} subsidary environment for this. \\Compare
+\( \left( \begin{matrix}
+      a + b + c 	& uv \\
+      a + b 	& c + d
+   \end{matrix} \right)
+\)
+ with 
+\( \left( \begin{smallmatrix}
+      a + b + c 	& uv \\
+      a + b 	& c + d
+   \end{smallmatrix} \right)
+\). \\
+There are no delimited variants of the \texttt{smallmatrix} environment. The \verb+\hdotsfor+ command does not work in a small matrix. 
+\vspace{15 pt}
+
+The \texttt{array} subsidary math environment is very similar to the \texttt{matrix} subsidary math environment except that the \texttt{array} environment is more versatile. For example, columns can be adjusted in the \texttt{array} environment. There is a required argument, which is the alignment of each column. The options are \texttt{c},\texttt{l}, or \texttt{r} for centered, flush left, or flush right, respectively.
+\begin{equation*}
+   \left(
+   \begin{array}{cccc}
+      a + b + c 	& uv 		& x - y 		& 27 \\
+      a + b 	& u + v 	& z 	 	& 134
+   \end{array}
+   \right)
+\end{equation*}
+An \texttt{array} subsidary math environment can take any argument that a \texttt{tabular} environment can take. 
+\[
+\begin{array}{r|rrr}
+	& a 	& b 	& c \\
+\hline
+1	& 1	& 1 	& 1 \\
+2 	& 1 	& -1 	& -1 \\
+2  	& 2 	& 1 	& 0
+\end{array}
+\]
+\vspace{15 pt}
+
+The \texttt{cases} environment is also a subsidary math environment. 
+\begin{equation}
+   f(x)=
+   \begin{cases}
+      -x^{2}, 		&\text{if \(x < 0\);}\\
+      \alpha + x, 	&\text{if \(0 \leq x \leq 1\);}\\
+      x^{2},		&\text{otherwise.}
+   \end{cases}
+\end{equation}
+We can also write this with the \texttt{array} environment
+\begin{equation}
+   f(x) =
+   \left\{
+   \begin{array}{ll}
+      -x^{2}, 		&\text{if \(x < 0\);}\\
+      \alpha + x, 	&\text{if \(0 \leq x \leq 1\);}\\
+      x^{2},		&\text{otherwise.}
+   \end{array}
+   \right.
+\end{equation}
+or with the \texttt{alignedat} subsidary math environment
+\begin{equation}
+   f(x) =
+   \left\{
+   \begin{alignedat}{2}
+      &-x^{2}, 		&&\quad\text{if \(x < 0\);}\\
+      &\alpha + x, 	&&\quad\text{if \(0 \leq x \leq 1\);}\\
+      &x^{2},		&&\quad\text{otherwise.}
+   \end{alignedat}
+   \right.
+\end{equation}
+\vspace{15 pt}
+
+Include the \texttt{amscd} package to use the \texttt{CD} subsidary math environment for typesetting commutative diagrams. A cummutative diagram is a matrix made of of two kinds of rows: rows with horizontal arrows and rows with vertical arrows.
+\[
+\begin{CD}
+A 	@>\text{log}>>B 	@>>\text{bottom}> C 	@= D 	@<<< E 	@<<< F \\
+@V\text{one-one}VV 	@. @AA\text{onto}A @| \\
+X @= Y @>>> Z @>>> U \\
+@A\beta AA @A\gamma AA @VVV @VVV \\
+D @>\alpha >> E @>>> H @. I
+\end{CD}
+\]
+Note: I am skipping the rest of this section because I don't care about commutative diagrams
+
+\end{document}

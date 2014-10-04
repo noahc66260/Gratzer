@@ -1,0 +1,444 @@
+\documentclass{amsart}
+\usepackage{amssymb, latexsym, verbatim}
+\usepackage{ch15CommandFile}
+\usepackage{layout}
+
+\renewcommand{\thepage}{(\arabic{page} or \Roman{page})}
+\newcommand{\tbs}{\textbackslash}
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\pqquad}{\phantom{\qquad}}
+\newcommand{\emttt}[1]{\texttt{\emph{#1}}}
+
+\begin{document}
+
+	\title{Chapter 15: Customizing \LaTeX}
+	\author[N.\, C. Ruderman]{Noah~C. Ruderman}
+
+	\begin{abstract}
+		We will review
+		\begin{center}
+		\begin{itemize}
+			\item User-defined commands
+			\item User-defined environments
+			\item A custom command file
+			\item Numbering and measuring
+			\item Custom lists
+		\end{itemize}
+		\end{center}
+	\end{abstract}
+
+	\maketitle 
+	% If the \maketitle command is missing, the title won't format 
+	% and won't show up on the document
+
+	User-defined commands, also called macros, can make inserting
+	text or equations you use often easier.
+	For example, if you use the equation 
+	\begin{equation}\label{E:01}
+		\int_0^{\infty} P(X = x) dx
+	\end{equation}
+	often, you may redefine it as a command. 
+	To create a user defined command, we use the command
+	\verb+\newcommand+\{\emph{command 1}\}\{\emph{command 2}\} in the
+	header. 
+	\emph{command 2} is the command we wish to make the equivalent
+	of typing \emph{command 1}.
+	So if we wanted to typeset equation \eqref{E:01} with the shorter 
+	command \verb+\Px+, we would insert the following into the 
+	header:
+	\verb+\newcommand{\Px}{\int_0^{\infty} P(X = x) dx}+
+	As proof we use the user-defined command below
+	\begin{equation}
+		\Px
+	\end{equation}
+	There are a few things to keep in mind:
+	\begin{enumerate}
+		\item
+			The first argument must not be a command that is already in use
+		\item
+			The second argument must be spelled correctly, but \LaTeX{} will
+			only give you an error when you try to use it if this is the case.
+		\item
+			Macros in \LaTeX{} work the same way as in C, so command 
+			declarations will need an extra pair of braces. 
+	\end{enumerate}
+
+	In the above example when we defined the command \verb+\Px+, we 
+	see that it is a math formula so we can only use it in a math
+	environment. 
+	Alternatively, we could have defined \verb+\Px+ to be
+	\verb+$\int_0^{\infty} P(X = x) dx$+ so that it could be used
+	in a text environment, but then this would prohibit use 
+	in a math environment without \verb+$+ delimiters. 
+	There is a solution around this.
+	We can use the \verb+\ensuremath{...}+ command so that the 
+	\verb+\Px+ command works in both environments. 
+	We would change the original user defined command to the following:
+	\verb+\newcommand{\Px}{\ensuremath{\int_0^{\infty} P(X = x) dx}}+.
+	Now \verb+$\Px$+ and \verb+\Px+ typeset as \Px. 
+
+	We can also make user-defined commands that take arguments.
+	For example, if we wanted to define a 
+	\verb+\pwr+\{\emph{base}\}\{\emph{exponent}\}
+	command that prints $\text{base}^{\text{exponent}}$, we would
+	put the following in the header: \\
+	\verb+\newcommand{\pwr}[2]{\ensuremath{{\text{#1}}^{\text{#2}}}}+.
+	We use it in the following: 
+	\pwr{(argument #1)}{(argument #2)}.
+	To define a command with arguments, we insert a number enclosed
+	in brackets after the first set of braces.
+	This number may take any value from 1-9 and represents the number
+	of arguments that the command takes.
+	In the second pair of braces, we type #1, #2, ... #n to insert
+	the value of the \pwr{1}{st}, \pwr{2}{nd}, or \pwr{n}{th} argument.  
+
+	We can make the first command optional and provide a default
+	value for the optional argument. 	
+	Suppose we would like a command that accepts two arguments (let's
+	assume they're $a$ and $b$) and typesets $a_1 + a_2 + \cdots + a_b$. 
+	We could put the following in the header: \\
+	\verb!\newcommand{\seq}[2][n]!
+		\!\verb!{\ensuremath{#2_1 + #2_2 + \cdots + #2_{#1}}}! \\
+	This says that the \verb+\seq+ command takes two arguments, that the
+	first argument is optional, and that the default value for the 
+	first arguement is $n$.
+	Now that the first argument is optional, we enclose it in brackets
+	\verb+[ ]+ rather than braces \{ \}. 
+	We omit the brackets, rather than providing them with no value to 
+	tell \LaTeX\ that we would like to use the default value.
+	\begin{align*}
+		\text{\textbackslash}\texttt{seq\{x\}} &\longrightarrow \seq{x} \\
+		\text{\textbackslash}\texttt{seq[]\{x\}} &\longrightarrow \seq[]{x} \\
+		\text{\textbackslash}\texttt{seq[z]\{x\}} &\longrightarrow 
+			\seq[z]{x} \\
+	\end{align*}
+	
+	We may also redefine commands, although it would be used sparingly. 
+	For example, the QED symbol is typeset as \verb+\qedsymbol+ \qedsymbol.
+	If we would like a solid black square $\blacksquare$ rather than
+	the hollow square, we may add the following to the header:
+	\verb+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}+.
+	Now  \verb+\qedsymbol+ appears as \qedsymbol. 
+
+	This is somewhat unrelated, but the command \verb+\linewidth+ is the 
+	horizontal spacing of a given line in the current format. 
+
+	We can also create user defined environments.
+	Here is a user-defined pseudo environment you've been using:
+	\begin{verbatim}
+		\phantom{\qquad}\textbf{a.} 
+		\begin{minipage}[t]{11 cm}
+		   Your text here.
+		\end{minipage}
+		\\[1ex]
+	\end{verbatim}
+	This pseudo-environment is the following:\\
+	\phantom{\qquad}\textbf{a.} 
+	\begin{minipage}[t]{11 cm}
+		Your text here.
+	\end{minipage}
+	\\[1ex]
+	Here's how you would redefine the environment to do such a thing:
+	\begin{verbatim}
+		\newlength{\cgap}
+		\settowidth{\cgap}{\qquad \textbf{x. }}
+
+		\newlength{\cwidth}
+		\setlength{\cwidth}{\textwidth}
+		\addtolength{\cwidth}{-\cgap}
+
+		\newenvironment{cpart}[2][\cwidth]
+		   {\\ \phantom{\qquad}\textbf{#2. }\begin{minipage}[t]{#1}}
+		   {\end{minipage} \\}
+	\end{verbatim}
+
+	First we define a custom width called \verb+\cwidth+ for formatting
+	purposes.
+	Then we use the \verb+\newenvironment+ command.
+	There are three mandatory arguments and two optional arguments.
+	The first mandatory argument is the name of the environment, so that
+	we may invoke with with \verb+\begin+\{\emph{environment name}\}. 
+	Then there are two optional arguments;
+	The first optional argument specifies the number of arguments
+	that the environment takes, so we may now invoke it with 
+	\verb+\begin+\{\emph{environment name}\}
+		\!\!\{\emph{argument 1}\}\{\emph{argument 2}\}\dots
+	The second optional argument implies that the first optional 
+	argument is used and makes \emph{argument 1} optional. 
+	The value of the second optional argument is the default value.
+	As always, we place this all in the header.
+	Now our environment invocation takes the form: \\
+	\verb+\begin+\{\emph{environment name}\}
+		\!\![\emph{argument 1}]\{\emph{argument 2}\}\dots\\ or
+	\verb+\begin+\{\emph{environment name}\}
+		\!\!\{\emph{argument 2}\}\dots (\emph{argument 1} takes default value)\\
+	The second mandatory argument is what is inserted when we invoke
+	our new environment with the \verb+\begin+\{\emph{environment name}\}\dots
+	command and the third mandatory argument is what gets inserted when we
+	end our environment with the \\ 
+	\verb+\end+\{\emph{environment name}\} command. 
+	
+	This is what the environment looks like:
+	\begin{cpart}{a}
+		This is part (a), and as I type we will see if the formatting is correct
+		by comparing where the line breaks off in this environment to outside
+		of the environment. 
+	\end{cpart}
+	\begin{cpart}{b}
+		This is part (b), and we can see the implicit spacing between the
+		two environments. Here is an equation that is part of the environment:
+		\[
+			\Px
+		\]
+	\end{cpart}
+	
+	Instead of putting all of the user-defined commands in the header,
+	you may choose to put them all in a custom command file.
+	The program extension in the book for the command file is 
+	\verb+.sty+, and I am unsure exactly why that is so. 
+	You place everything in the command file as normal, but you
+	must place the \verb+\endinput+ command at the end of the file.
+	To include the file in the document, you use the 
+	\verb+\usepackage+\{\dots\} command. 
+	All of the commands used in this file, for example, 
+	were moved into a file named \verb+ch15CommandFile.sty+ and 
+	imported with the \verb+\usepackage{ch15CommandFile}+ command in the
+	header.
+
+	Counters are automatically handled by \LaTeX\ but sometimes
+	custom formatting by the user is necessary.
+	Examples of counters are the numbering of a theorem,
+	section, equation, and page numbers.
+	We can set extant counters with the
+	\verb+\setcounter+\{\emph{counter}\}\{\emph{value}\} command. 
+	We can also get the value of a counter by the 
+	\texttt{\textbackslash the\emph{counter}} command.
+	We see that the value of \verb+\theequation+ is \theequation. 
+	Now we type \verb+\setcounter{equation}{999}+%
+	\setcounter{equation}{999}
+	and the value of \verb+\theequation+ is \theequation. 
+	Now let's see what number we get when we type an equation:
+	\begin{equation}
+		\Px
+	\end{equation}
+	And now the value of \verb+\theequation+ is \theequation. 
+
+	\LaTeX\ has standard counters used frequently with the following names \\
+	\hfill	
+	\begin{minipage}[t]{3 cm}
+		\begin{itemize}
+			\item equation
+			\item figure
+			\item footnote
+			\item mpfootnote
+			\item page
+			\item table
+		\end{itemize}
+	\end{minipage} 
+	\hfill
+	\begin{minipage}[t]{4 cm}
+		\begin{itemize}
+			\item part
+			\item chapter
+			\item section 
+			\item subsection
+			\item subsubsection
+			\item paragraph
+		\end{itemize}
+	\end{minipage} 
+	\hfill
+	\begin{minipage}[t]{4 cm}
+		\begin{itemize}
+			\item subparagraph
+			\item enumi
+			\item enumii
+			\item enumiii
+			\item enumiv
+		\end{itemize}
+	\end{minipage} \hfill
+	
+	We can choose to define our own counters with the 
+	\verb+\newcounter+\{\emph{mycounter}\} command, to be placed in the
+	header file.
+
+	We can change the counter's appearance if we wish with the\\
+	\verb+\renewcommand+\{\texttt{\textbackslash the\emph{counter}}\}%
+		\{\emph{new\_style}\} command. 
+	The following styles are available: \\
+	\begin{center}
+		\begin{tabular}{l l l}
+			\hline
+			Style 	
+				& 	Command 	
+				& Sample
+ 				\\ \hline
+			Arabic 	
+				& \texttt{\textbackslash arabic\{\emph{counter}\}}
+				& 1, 2, \dots 
+				\\
+			Lowercase Roman
+				& \texttt{\textbackslash roman\{\emph{counter}\}}
+				& i, ii, \dots
+				\\
+			Uppercase Roman
+				& \texttt{\textbackslash Roman\{\emph{counter}\}}
+				& I, II, \dots
+				\\
+			Lowercase Letters
+				& \texttt{\textbackslash alph\{\emph{counter}\}}
+				& a, b, \dots, z
+				\\
+			Uppercase Letters
+				& \texttt{\textbackslash Alph\{\emph{counter}\}}
+				& A, B, \dots, Z
+				\\ \hline
+		\end{tabular}
+	\end{center}
+	We can get creative in how we redefine counters. 
+	For example, the page numbers were redefined with the command \\
+	\verb+\renewcommand{\thepage}{(\arabic{page} or \Roman{page})}+
+	The following commands might be of use:
+	\texttt{\textbackslash stepcounter\{\emph{counter}\}} increments
+	\texttt{\emph{counter}} and sets all the counters that were 
+	defined with the optional argument counter to 0.
+	\texttt{\textbackslash addtocounter\{\emph{counter}\}\{\emph{n}\}}
+	adds the value \texttt{\emph{n}} to \texttt{\emph{counter}}.
+	
+	\LaTeX\ has five absolute length units:
+	\begin{itemize}
+		\item \texttt{cm} centimeter
+		\item \texttt{in} inch
+		\item \texttt{pc} pica (1 pc = 12 pt)
+		\item \texttt{pt} point (1 in = 72.27 pt)
+		\item \texttt{mm} millimeter
+	\end{itemize}
+	and two relative ones:
+	\begin{itemize}
+		\item \texttt{em}, approximately the width of the letter M 
+			in the current font.
+		\item \texttt{ex}, approximately the width of the letter x
+			in the current font.
+	\end{itemize}
+	See chapter 10 for common length commands. 
+
+	We can define a new length command in the header like so:
+	\verb+\newlength{\mylength}+.
+	Now \verb+\mylength+ is interpreted as a length by \LaTeX. 
+
+	To set the length of a length command, we type
+	\verb+\setlength{\mylength}+\texttt{\emph{\{length\}}}.
+	Some things to note: 
+	\begin{enumerate}
+		\item The first argument must be a length 
+			command, which is to say that it must include the backslash 
+			\textbackslash. 
+		\item The second argument have units or be a length command. 
+	\end{enumerate}
+
+	Another way we can set the length of a command is to use the
+	\verb+\settolength+\texttt{\{\emph{length command}\}\{\emph{argument}\}}.
+	The last argument can be text or a math formula which is to be measured
+	by \LaTeX\ whose length is assigned to the length command. 
+	
+	We can adjust the length of a length command with the 
+	\verb+\addtolength+\texttt{\{\emph{length command}\}\{\emph{length}\}}
+	command. 
+	One thing to note here is that the last argument can take on negative
+	values as well as positive ones. 
+	Not including a sign in front of the last command means that \LaTeX\
+	assumes you are implying the use of a positive value. 
+	Also related to this command are the commands
+	\verb+\settoheight+ and \verb+\settodepth+ which take the same
+	arguments. 
+	Note: "depth" is the length from the bottom of the line to the
+	bottom of the box, which matters for letters like g and q. 
+
+	Let's take a look at our previous use of length commands:
+	\begin{verbatim}
+		\newlength{\cgap}
+		\settowidth{\cgap}{\qquad \textbf{x. }}
+
+		\newlength{\cwidth}
+		\setlength{\cwidth}{\textwidth}
+		\addtolength{\cwidth}{-\cgap}
+
+		\newenvironment{cpart}[2][\cwidth]
+		   {\\ \phantom{\qquad}\textbf{#2. }\begin{minipage}[t]{#1}}
+		   {\end{minipage} \\}
+	\end{verbatim}
+	We see that the judicious use of length commands can solve 
+	problems that I used to find baffling. 
+
+	It is possible to make custom lists, which addresses yet another
+	problem I was having not very long ago. 
+	First, we need to discuss the relevant length commands
+	for a list environment.
+	\begin{description}
+		\item[\textbackslash \texttt{topsep}] 
+			this is most of the vertical space between the first item
+			and the preceding text and also most of the space between
+			the last item and the following text. 
+			The space aforementioned is also augmented by 
+			\verb+\parskip+, the extra vertical space inserted between
+			paragraphs. 
+		\item[\textbackslash \texttt{parsep}] 
+			this is the space between paragraphs of the same item.
+		\item[\textbackslash \texttt{itemsep}]
+			this is the space between items. Like \verb+\topsep+, the
+			actual gap is the sum of \verb+\itemsep+ and \verb+\parsep+.
+		\item[\textbackslash \texttt{leftmargin}]
+			this is the distance between the edge of the item box and 
+			the left margin of the page. I believe the item box
+			is the text that follows \verb+\item+. 
+		\item[\textbackslash \texttt{rightmargin}]
+			analog of \verb+\leftmargin+ entry for right margin. 
+		\item[\textbackslash \texttt{labelwidth}]
+			the width of the box that the optional argument for
+			the \verb+\item+ command is typeset in. 
+		\item[\textbackslash \texttt{itemindent}]
+			the amount of space that the box of length \verb+\labelwidth+
+			is indented from the left margin. 	
+		\item[\textbackslash \texttt{labelsep}]
+			the space separation between the box that contains
+			the label name and the box containing the text that follows. 
+		\item[\textbackslash \texttt{listparindent}]
+			the length of the indentation of the second and subsequent
+			paragraphs of an item. 
+	\end{description}
+	
+	Custom lists are created using the \verb+list+ environment, which
+	is invoked as follows: 
+	\ttt{\tbs begin\{list\}\{\emph{default\_label}\}\{\emph{declarations}\}} \\
+	\pqquad \ttt{\tbs item \emph{item1}} \\
+	\pqquad \ttt{\tbs item \emph{item2}} \\
+	\pqquad \dots \\
+	\ttt{\tbs end\{list\}}
+
+	\emttt{default\_label} is the default label used for any items that
+	do not specify their own label.
+	\emttt{declarations} is the vertical and horizontal length commands 
+	and any other required parameters for the list.
+
+	Here's an example of a customized list (with counters):
+	\newcounter{spacerule}
+	\begin{list}{\textbf{Rule \arabic{spacerule}:}}
+					{\setlength{\leftmargin}{3 cm}
+					 \setlength{\rightmargin}{3 cm}
+					 \setlength{\labelsep}{1 cm}
+					 \usecounter{spacerule}}
+		\item	
+			We may use counters in our lists and we must specify that
+			the counter will be used in the \emttt{default\_label} argument.
+		\item
+			If we use a counter and wish for it to be incremented
+			automatically, we use the \\
+			\verb+\usecounter{+\emttt{counter}\ttt{\}} command. 
+	\end{list}
+	Strangely, I am unable to get rid of the initial indentation of the
+	first paragraph of an item. 
+	If we happen to use a custom \ttt{list} environment often,
+	we can define it as a new environment. 
+	We can also apply labels to the items, and what will be recorded
+	is the value of the counter for that item.
+
+\end{document}

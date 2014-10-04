@@ -1,0 +1,160 @@
+\documentclass[12pt,draft]{amsart} % The draft optional argument is used but it appears that no lines are too wide :(
+\usepackage{amssymb, latexsym, verbatim}
+% \renewcommand{\baselinestretch}{1.5} % enable to get double spacing!
+
+\begin{document}
+
+	\title{Chapter 5: Typing Text}
+	\author[N.\, C. Ruderman]{Noah~C. Ruderman}
+
+	\begin{abstract}
+		We will review
+		\begin{center}
+		\begin{itemize}
+			\item The keyboard
+			\item Spacing rules
+			\item Commands and environments
+			\item Symbols not on the keyboard
+			\item Comments and notes
+			\item Changing font characteristics
+			\item Lines, paragraphs, and pages
+			\item Spaces
+			\item Boxes
+		\end{itemize}
+		\end{center}
+	\end{abstract}
+
+	\maketitle 
+	% If the \maketitle command is missing, the title won't format 
+	% and won't show up on the document
+
+$\sqrt[3]{5}$ \ $\sqrt[4]{f(x) - \sqrt{x^2}}$
+
+\today is the day \fbox{compare to:} \today \ is the day
+
+Let's look at example H. See what we get? 
+
+Let's look at example H\@. See what we get? % We have the correct spacing here b/c LaTeX does not interpret the first period as the end of a sentence. 
+% Command declarations are without arguments. An example is \bfseries which designates the text as follows in the scope to be in bold. 
+
+% I don't understand what commands are "fragile." All I know is that fragile commands should be protected if they are going to be moved from one computer to another...
+
+``She replied, 'No.'\,'' % I used the left apostrophe on the right...
+"She replied, 'No.'\, " %Latex is asking that I print quotes (") with two apostrophes (''). Apparently both typeset alright to me. Ok, so in BibTEX and MakeIndex, the quotes have special meaning so it is good form to stick with the double apostrophes always. 
+
+Let's print the special characters: \textbackslash, \textbar, \textasteriskcentered, @, \{, \}, \& \^{}, \$, \_, \#, \%, \~{}
+
+... vs \dots
+
+\noindent look at the dotless i: \i \\
+look at the dotless j: \j
+
+Let's type some accents: \'{o}, \u{o}, \v{o}, \c{c}, \^{o}, \"{u}, %quotes used, not apostrophe
+			\H{o}, \`{o} % this is the left apostrophe...
+			\i, \'{\i}, \={o}, \.{g}, \r{u}, \t{oo}, \~{n}, \d{m}, \b{o}, \j, \v{\j}
+
+\TeX and \LaTeX \\
+\the\year \ \the\time \ \the\month \ \the\day. So the date is \the\month /\the\day /\the\year . We could also write this as \today .
+
+Sometimes \LaTeX can\-not properly hyphen\-ate a word so you must hyphen\-ate the word for this pro\-gram to un\-der\-stand. Note how these hy\-phens are not type\-set. 
+
+To see how \LaTeX \ hyphenates a word, use the  \textbackslash showhyphens command. \\
+\showhyphens{To see how \LaTeX \ hyphenates a word, use the  \textbackslash showhyphens command.}
+\showhyphens{communicate} \\
+The \textbackslash showhyphens command shows you the hyphenation in the log file. 
+
+If you need to comment out large amounts of text, use the comment environment:
+\begin{comment}
+Comments included here
+\end{comment}
+\\
+You didn't see what was above because it was commented. Also, the comment environment requires the verbatim package. The comment environment is excellent for finding errors in code. 
+
+Here is a footnote\footnote{footnotes are easy to place}. And here is another footnote\footnote{my second footnote}.
+
+\bigskip
+
+Here are a few fonts you may use: \\
+\emph{emphasis} which can also be written as {\em emphasis} \\
+\textbf{bold} which can also be written as {\bfseries bold} \\
+\texttt{typewriter style} which can also be written as {\ttfamily typewriter style} \\
+\textsc{small capitals} which can also... {\scshape small capitals}
+
+\noindent {\em emphasis} \\
+{\itshape emphasis}
+
+What is the difference between \emph{emphasis} and \text{\textit{italics}}? I think I know: the document class specifies how emphasis will be typeset. It is italic or slanted unless the surrounding text is italic or slanted, in which case it is upright. Check this out: {\itshape we will describe a \emph{lattice} in which it is blah}. To the \textbackslash emph command is more versatile than the \textbackslash textit command
+
+Note that if you don't want something hyphenated (one instance) you can write \textbackslash text and the argument is the word you are going to type that you don't want hyphenated at the instance you want to use the word. 
+
+\noindent {\em don't forget the italic correction M\/}M. See how it helps? Compare this to: \\
+{\em don't forget the italic correction M}M. (This is bad)\\
+However, the shape environment need not the correction: \\
+\textit{don't forget the italic correction M}M. 
+
+
+\noindent \Tiny Text is small \\
+\tiny but growing every so slowly \\
+\SMALL until it becomes big enough \\
+\Small to be read well enough \\
+\small to be considered normal text \\
+\normalsize like this \\
+\large but it keeps on growing \\
+\Large without fail \\
+\LARGE and growing and growing \\
+\huge becoming as large as possible \\
+\Huge until it reaches its fullest size. \\
+
+\normalsize
+we can also use the \larger[1] \textbackslash larger \normalsize command to increase the text by the number of sizes specified by the optional argument. The sample applies for the \smaller[1] \textbackslash smaller \normalsize command with an optional argument as well. 
+
+Something you didn't know is that the \textbackslash \textbackslash \ command can take on an optional argument. \\[12pt]
+I just looked at my bio modeling grade. How depressing. \\
+For double spacing I can include the command\\ \textbackslash renewcommand\{\textbackslash baselinestretch\}\{1.5\} \\[12pt]
+
+\indent Did you even consider the \textbackslash indent command for when there otherwise wouldn't be an indent?? \\[12pt]
+
+\setlength{\hangindent}{30pt}
+\noindent
+We see that to set a hanging indent we must use the \textbackslash setlength and \textbackslash hangindent commands. Remember boys and girls that there are 72.27 points in an inch. 
+
+When there are blank lines in the .tex file the text surrounding is no longer indented... New paragraph means back to default formatting.\\[12pt]
+To create horizontal spacing, \hspace{12pt} use the \textbackslash hspace command with the mandatory argument to specifiy how long the space will be. It is possible to have negative spacing. Here is a negative space: \hspace{-15pt} negative space.\\[12pt]
+alpha \phantom{beta} gamma \phantom{epsilon}\\
+\phantom{alpha} beta \phantom{gamma} epsilon \\
+\phantom{alpha beta} gamma \phantom{epsilon} \\
+alpha beta \\
+\phantom{alpha beta gamma} epsilon \\
+alpha beta gamma epsilon \\
+
+Normally space before a new \\
+\hspace*{20pt} line is removed but the \textasteriskcentered -ed variant of \textbackslash hspace \\
+\hspace*{20pt} prevents this. \\
+
+The command \textbackslash vspace is analogous to \textbackslash hspace. Standard amounts of vertical space are provided by the commands \textbackslash smallskip (3 pts), \textbackslash medskip (6 pts), and \textbackslash bigskip (12 pts). There is an analogous phantom command which is called \textbackslash vphantom.\\
+\indent So there are different units for vertical and horizontal spacing. We have points (pt), inches (in), centimeters (cm). There is also a useful measurement that is relative to the text. They are the \emph{em} and \emph{ex}. The em is the width of an M in the current font. The ex is the height of an x in the current font. Use em and ex just as if they were units in \textbackslash hspace and \textbackslash vspace, etc. Note that the \textbackslash vspace command applies once the line it has been entered on ends. So end the line once you enter the \textbackslash vspace command, please. 
+
+\vspace{12pt}
+So apparently the \textbackslash text command is all a single character so if i want to find out what happens for a really long argument I can type \text{This is going to be a super long argument and I'm not quite sure what will happen.} Clearly the text over-runs the margin. \\[12pt]
+The command \textbackslash makebox or \textbackslash mbox create an invisible box surrounding the text inside and it's all one character. The optional arguments include the width (which may take the arguments \textbackslash height, \textbackslash depth, \textbackslash totalheight, and \textbackslash width) and alignment (l, r, c, s). For example, compare \framebox{1} with \framebox{\makebox[\totalheight]{1}} in which the second is actually a square box. \\[12pt]
+There's also another cool box we can make. It's the \textbackslash framebox or \textbackslash fbox. \fbox{This is a framed box.}
+
+There's also a cool command that allows you to create a paragraph box. Note that normal boxes don't wrap around lines and go past the margin. A paragraph box is created by the \textbackslash parbox command and it has two required arguments: the width of the box and the text you will put in. You can make a framed paragraph box using the \textbackslash fbox command: \\
+\fbox{\parbox{3in}{This is a paragraph box and as you can see the text wraps around. This is all one character and cannot be broken...}}\\
+The full version of the command is:\\ \textbackslash parbox[\emph{alignment}][\emph{height}][\emph{inner-alignment}]\{\emph{width}\}\{\emph{text}\} \vspace{12pt}\\
+Note that the alignment option is the horizontal alignment of the text and the inner-alignment argument is the vertical alignment of the text.
+\vspace{12pt}
+
+\noindent There's also the \textbackslash marginpar command. \marginpar{see what i mean?} I am not sure how to format with optional arguments. :(
+\vspace{12pt}
+
+Struts are solid boxes of zero width. They are used to help typeset by altering the vertical alignment. The command is \textbackslash strut or \textbackslash mathstrut. See this:
+\fbox{ab} \quad \fbox{\strut ab} \quad \framebox{\makebox[\totalheight][c]{$\mathstrut$ab}} \quad \fbox{$\mathstrut$ab}
+\vspace{12pt}
+
+You can make solid boxes, like those used at the end of a proof, with the \textbackslash rule[\emph{displacement}]\{\emph{width}\}\{\emph{height}\} \rule[-.23ex]{1.6ex}{1.6ex}
+\vspace{12pt}
+
+Lastly we can fine tune boxes with the command \textbackslash raisebox\{\emph{distance raised/lowered}\}[\emph{height above top}][\emph{distance below bottom}\}\{\emph{text}\}. \\Fine-\raisebox{.5ex}{tun}\raisebox{-.5ex}{ing}.
+
+\end{document}

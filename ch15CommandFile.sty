@@ -1,0 +1,26 @@
+\newtheorem*{namedtheorem}{\theoremname}
+\newcommand{\theoremname}{testing}
+\newenvironment{named}[1]{\renewcommand{\theoremname}{#1}
+	\begin{namedtheorem}}
+	{\end{namedtheorem}}
+
+\newcommand{\Px}{\ensuremath{\int_0^{\infty} P(X = x) dx}}
+\newcommand{\pwr}[2]{\ensuremath{{\text{#1}}^{\text{#2}}}}
+\newcommand{\seq}[2][n]{\ensuremath{#2_1 + #2_2 + \cdots + #2_{#1}}}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+
+\newlength{\cgap}
+\settowidth{\cgap}{\qquad \textbf{x. }}
+
+\newlength{\cwidth}
+\setlength{\cwidth}{\textwidth}
+\addtolength{\cwidth}{-\cgap}
+
+\newenvironment{cpart}[2][\cwidth]
+	{\\ \phantom{\qquad}\textbf{#2. }\begin{minipage}[t]{#1}}
+	{\end{minipage} \\}
+
+
+
+\endinput

@@ -1,0 +1,290 @@
+\documentclass{amsart}
+\usepackage{amscd, verbatim}
+
+\DeclareMathOperator{\boldsum}{\pmb{\sum}}
+\DeclareMathOperator*{\boldsumlim}{\pmb{\sum}}
+
+\begin{document}
+
+	\title{Chapter 8: More Math}
+	\author[N.\, C. Ruderman]{Noah~C. Ruderman}
+
+	\begin{abstract}
+		We will review
+		\begin{center}
+		\begin{itemize}
+			\item Spacing of symbols
+			\item Building new symbols
+			\item Math alphabets and symbols
+			\item Vertical spacing
+			\item Tagging and grouping
+			\item Miscellaneous
+		\end{itemize}
+		\end{center}
+	\end{abstract}
+
+	\maketitle 
+	% If the \maketitle command is missing, the title won't format 
+	% and won't show up on the document
+
+	\noindent
+	To insert a thin space, we type \verb+\,+. 
+	Compare this
+	\[
+		A = \{ x \in X \mid x \beta \geq xy > (x + 1)^2 - \alpha \}
+	\]
+	with this
+	\[
+		A = \{\, x \in X \mid x \beta \geq xy > (x + 1)^2 - \alpha \, \}
+	\]
+	We see that there is more space between the brackets and what lies
+	inside.
+	Also something important to note is the difference between the 
+	\verb+\mid+ command and the use of a \verb+|+, which is a midline 
+	character.
+	Using the \verb+\mid+ command inserts a \verb+|+ character which 
+	acts as a binary operator, so spacing is automatic. 
+	Using the \verb+|+ character by itself does not act as a binary
+	operator, so there is no implicit spacing. 
+	Compare the following: 
+	\begin{align*}
+		X &\mid x 	&& \text{ uses the } 
+						\texttt{\textbackslash mid} \text{ command }\\
+		X &| x			&& \text{ uses the } | \text{ character }
+	\end{align*}
+	\LaTeX{} implicitly creates spacing for binary operators, such as 
+	the + and - operators.
+	If you intend for a that can be binary or unary to be treated as
+	a binary operator, place empty brackets \{ \} one one side of the 
+	operator. 
+	Compare $+a$ and ${}+a$. 
+
+	There are many different spacing commands, and spacing commands 
+	may either be positive or negative. 
+	In order of increasing width, the positive spaces are: 
+	\verb+\,+ or \verb+\thinspace+; \verb+\:+ or \verb+\medspace+; 
+	\verb+\;+ or \verb+\thickspace+; or \verb+\ + which is an 
+	interword space. 
+	Also there is \verb+\quad+, which is 1 em long and 
+	\verb+\qquad+, which is 2 em long. \\
+	\begin{center}
+		t\,h\,i\,n\,s\,p\,a\,c\,e \\
+		m\:e\:d\:s\:p\:a\:c\:e \\
+		t\;h\;i\;c\;k\;s\;p\;a\;c\;e \\
+		i\ n\ t\ e\ r\ w\ o\ r\ d\quad s\ p\ a\ c\ e
+	\end{center}
+	To use negative spaces, generally the long command must be used.
+	Here are the options: \verb+\!+ or \verb+\negthinspace+, 
+	\verb+\negmedspace+, and \verb+\negthickspace+. 
+	\begin{center}
+		X\!x \\
+		X\negmedspace{}x \\
+		X\negthickspace{}x
+	\end{center}
+	Compare the following
+	\begin{align*}
+		\sqrt{5} \text{side} \quad &\text{to} \quad \sqrt{5} \, \text{side} \\
+		\sin x / \log n \quad 		&\text{to} \quad \sin x / \! \log n \\
+		f(1 / \sqrt{n}) \quad 		&\text{to} \quad f(1 / \sqrt{n}\,) \\
+		f: A \to B \quad 				&\text{to} \quad f \colon A \to B
+	\end{align*}
+	The \verb+\phantom+ command is very useful but examples won't be
+	developed here. 
+
+	The \verb+\overset+ and \verb+\underset+ commands allow new symbols
+	to be made from extant ones. 
+	There are two arguments; the first is the variable to be displayed
+	above or below the second argument.
+	For underset, $\underset{\text{first argument}}{\text{second argument}}$ 
+	and for overset, $\overset{\text{first argument}}{\text{second argument}}$.
+	We can get creative with this command
+	\[
+		\overset{l}{+} 	\quad
+		\overset{\alpha}{x} \quad
+		\overset{\overset{\alpha}{x}}{x} \quad
+		\underset{x \to \infty}{\lim x} \quad
+		\underset{j \, \text{even}}{A_j}
+	\] 
+	Generally with a large operator, we can place subscripts or 
+	superscripts
+	\[
+		\sum_{i = 0}^j i = \frac{j(j+1)}{2}
+	\]
+	However, in the event that we would like to get more creative with 
+	where we may place symbols around a large operator, we may use
+	the four corners by use of the \verb+\sideset+ command, which
+	has the form \\
+	\verb+\sideset{ _{ll}^{ul} }{ _{lr}^{ur} }{large_op}+
+	and from this we get constructions such as 
+	\[
+		\sideset{ _{ll}^{ul} }{ _{lr}^{ur} }{\prod}_b^t
+	\]
+	If we want to use a symbol as a binary operator, we can tell
+	\LaTeX{} of our intentions so it spaces accordingly. 
+	This is done with the 
+	\verb+\mathbin{operator}+ or \verb+\mathrel{operator}+ commands. 
+	The first treats the symbol as a binary operator, the second
+	treats the symbol as a binary relation. 
+	\[
+		A \alpha B \quad \text{compare to} \quad A \mathbin{\alpha} B
+	\]
+	
+	When you type letters in a math formula you are using a 
+	\emph{math alphabet}. 
+	\begin{align*}
+		\mathbf{Math\ bold:\ 2\ Greek\ gammas,\ \gamma\ and\ \Gamma} \\
+		\mathit{Math\ italics:\ 2\ Greek\ gammas,\ \gamma\ and\ \Gamma} \\
+		\mathsf{Math\ sans\ serif:\ 2\ Greek\ gammas,\ \gamma\ and\ \Gamma} \\
+		\mathrm{Math\ roman:\ 2\ Greek\ gammas,\ \gamma\ and\ \Gamma} \\
+		\mathtt{Math\ typewriter:\ 2\ Greek\ gammas,\ \gamma\ and\ \Gamma} \\
+		\mathnormal{Math\ normal:\ 2\ Greek\ gammas,\ \gamma\ and\ \Gamma}
+	\end{align*}
+	The respective commands to produce the text above are 
+	\verb+\mathbf+\{\emph{text}\}, 
+	\verb+\mathit+\{\emph{text}\}, 
+	\verb+\mathsf+\{\emph{text}\}, 
+	\verb+\mathrm+\{\emph{text}\}, 
+	\verb+\mathtt+\{\emph{text}\}, 
+	\verb+\mathnormal+\{\emph{text}\} (the default). 
+	Note that the default setting is math italics. 
+	
+	Note: symbols and math alphabets are disjoint sets. 
+	There are no italicized, slanted, or sans serif versions. 
+	However, if you want to make a bold symbol, you can use the
+	\verb+\boldsymbol+\{\emph{symbol}\} command. 
+	Compare $\boldsymbol{\alpha}\ \text{to}\ \alpha$. 
+	There are four alphabets of symbols in \LaTeX: 
+	\begin{center}
+		\begin{tabular}{ccc} %alphabet, command, examples
+			Alphabet 	
+				& Command 	
+				& Examples \\ \hline \hline
+			Greek 		
+				& symbol specific 	
+				& $\alpha$, $\beta$, $\gamma$ \\ \hline
+			Calligraphic 
+				& \verb+\mathcal{}+ 	
+				& $\mathcal{A,\ B,\ C}$ \\ \hline
+			Euler Fraktur 	
+				& \verb+\mathfrak{}+ 
+				& $\mathfrak{A,\ B,\ C}$ \\ \hline
+			Blackboard bold 
+				& \verb+\mathbb{}+ 	
+				& $\mathbb{A,\ B,\ C}$
+		\end{tabular}
+	\end{center}
+	You can, of course, combine commands relating to symbols.
+	If you want to type $\boldsymbol{\mathcal{AMS}}$, you can't do so using
+	the \verb+\mathbf{}+ command since the font is a symbol alphabet, not a
+	math alphabet.
+	But you can combine the \verb+\boldsymbol+\{\emph{symbols}\} with
+	the Calligraphic alphabet.
+	Try the command \verb+\boldsymbol{\mathcal{AMS}}+.
+	Note: the command \verb+\mathcal{\boldsymbol{AMS}}+ doesn't work. 
+	Can you guess why?
+
+	Some symbols do not have a bold version, such as the $\sum$ symbol. 
+	To get a bold version, use the \verb+\pmb+\{\emph{symbol}\} command.
+	From this we get $\pmb{\sum}$.
+	The \verb+\pmb{}+ command typesets three very closely spaced symbols
+	to get a rudimentary bold version. 
+	However, this does destroy \LaTeX's implicit spacing for the symbol, 
+	which is no longer treated as a large operator. 
+	Compare
+	\[
+		\sum_{i = 1}^n i^2 \quad
+		\pmb{\sum}_{i = 1}^n i^2 \quad
+		\boldsum_{i = 1}^n i^2 \quad
+		\boldsumlim_{i=1}^n i^2
+	\]
+	The first variant is the regular one.
+	The second variant use the \verb+\pmb{}+ command, which
+	\LaTeX no longer treats as a large operator. 
+	The third variant defines \verb+\pmb{\sum}}+ as a math operator
+	with the command \\
+	\verb+\DeclareMathOperator{\boldsum}{\pmb{\sum}}+
+	in the header. 
+	The fourth variant does the same as the third but uses the
+	\verb+*+ed version: \\
+	\verb+\DeclareMathOperator*{\boldsumlim}{\pmb{\sum}}+
+
+	Vertical spacing is also an issue when typesetting formulas. 
+	We can control vertical spacing with the \verb+{\mathstrut ...}+ 
+	command or the \verb+\vphantom{...}+ command.
+	the \verb+{\mathstrut ...}+ command inserts an invisible 
+	vertical space.
+	The \verb+\phantom{...}+ command measures the height of its argument
+	and places a math strut of that height.
+	Generally the second option is more versatile than the former. 
+	Compare $\sqrt{a} + \sqrt{b}$ to 
+	$\sqrt{\mathstrut a} + \sqrt{\mathstrut b}$ (\verb+\mathstrut+)
+	or $\sqrt{\vphantom{b} a} + \sqrt{b}$ (\verb+\vphantom{}+). 
+
+	We can use the \verb+\smash{...}+ command to tell \LaTeX{} 
+	to pretend that $\smash{\frac{1}{\int_{-\infty}^{\infty} e^{x^2} dx}}$
+	or an argument like it doesn't protrude above or below the 
+	current line.
+
+	We can attach tags to equations with the \verb+\tag+\{\emph{argument}\}
+	command. 
+	\begin{equation}
+		\int_{-\infty}^{\infty} e^{x^2} dx \tag{my customized tag}
+	\end{equation}
+	Since the customized tag explicitly inserts a tag, it does not 
+	matter if we use the \verb+\[ \]+, \verb+equation*+, or \verb+equation+
+	environments. 
+	Also, tags are absolute, so they will not change if the equation is 
+	moved, unless the argument is a reference to a label.
+	If we use the variant \verb+\tag*+\{\emph{argument}\}, the parentheses
+	are omitted.
+	\begin{equation}
+		\int_{-\infty}^{\infty} e^{x^2} dx \tag*{my customized tag}
+	\end{equation}
+	
+	To be able to reference equations, we use the 
+	\verb+\label+\{\emph{argument}\} command. 
+	We can have both a tag and a label
+	\begin{equation} \label{q52}
+		\int_{-\infty}^{\infty} ze^{z^2} dz \tag*{$q_{52}$}
+	\end{equation}
+	and we can now reference the equation with the 
+	\verb+\ref+\{\emph{label}\} to get \ref{q52} or alternatively
+	we may use \verb+\eqref+\{\emph{label}\} to get \eqref{q52}. 
+	Since the tag we used was static, the reference will always yield 
+	the same value, but if equation were labeled by some other means
+	then the reference would yield the current label of the equation. 
+
+	The \verb+subequations+ environment allows the implicit numbering
+	of the equations to follow the pattern of 1a, 1b, ...
+	\begin{subequations}
+		\begin{equation}
+			1 + 1 = 2
+		\end{equation}
+		\begin{equation}
+			2 + 2 = 4
+		\end{equation}
+	\end{subequations}
+
+	If you plan to do some creative things with fraction formatting,
+	use the \\
+	\verb+\genfrac+\{\emph{left-delim}\}
+		\negthickspace\{\emph{right-delim}\}
+		\negthickspace\{\emph{thickness}\}
+		\negthickspace\{\emph{mathstyle}\}
+		\negthickspace\{\emph{numerator}\}
+		\negthickspace\{\emph{denominator}\}
+	command. 
+	The \emph{thickness} argument is the thickness of the fraction line, 
+	which is in the form $x$pt (the default is 0.4 pt). 
+	For the \emph{mathstyle} argument, choose 0 for \verb+\displaystyle+, 
+	1 for \verb+\textstyle+, 2 for \verb+\scriptstyle+, or 3 for
+	\verb+\scriptscriptstyle+ (the default is 0). 
+	All argument must be specified for this command, but the empty
+	argument gives the default value. 
+
+	The \verb+\boxed{...}+ command creates a box around math formula.
+	\begin{equation}
+		\boxed{\int_{-\infty}^{\infty} e^{x^2} dx}
+	\end{equation}
+
+\end{document} 
